@@ -20,10 +20,6 @@ public class productoController {
     public List<Producto> getAll() {
         return productoSerivce.getProduct();
     }
-    @GetMapping("/{personId}")
-    public Optional<Producto> getById(@PathVariable("productId") Integer productId) {
-        return productoSerivce.getProduct(productId);
-    }
 
 
     @PostMapping
