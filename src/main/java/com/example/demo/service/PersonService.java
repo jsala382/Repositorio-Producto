@@ -10,6 +10,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -26,6 +27,10 @@ public class PersonService {
     public List<PersonDTO> getPerson() {
         List<PersonDTO> response = client.getPerson();
         return response;
+    }
+
+    public Optional<Persona> getPerson1(Integer id) {
+        return personRepository.findById(id);
     }
 
     public void savePerson(List<PersonDTO> personDTOList) {
@@ -46,18 +51,16 @@ public class PersonService {
 
 
     public void savePersonBYId(PersonDTO personDTO) {
-        List<PersonDTO> listClientTwo = client.getPerson();
         Persona personaTwo = new Persona();
-        for (PersonDTO personDTO02 : listClientTwo) {
-            //if(personDTO02.getIdPersona()!=personaTwo.getIdPersona()){
-            personaTwo.setIdPersona(personDTO02.getIdPersona());
-            personaTwo.setIdCard(personDTO02.getIdCard());
-            personaTwo.setName(personDTO02.getName());
+        if (getPerson1(personDTO.getIdPersona()).isEmpty()) {
+            personaTwo.setIdPersona(personDTO.getIdPersona());
+            personaTwo.setIdCard(personDTO.getIdCard());
+            personaTwo.setName(personDTO.getName());
             personRepository.save(personaTwo);
-            //  }else{
-                /*System.out.println("Ya existe ese registro de persona por tal motivo no se ouede guardar");
-            }*/
+        } else {
+            System.out.println("Ya existe ese registro de persona por tal motivo no se ouede guardar");
         }
+
     }
 
 
